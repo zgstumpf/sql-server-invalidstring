@@ -11,7 +11,6 @@ create trigger TR_MyTable_string_InvalidString on MyTable
 after insert, update
 as
     if rowcount_big() = 0 return;
-    set xact_abort on;
 
     if exists(select 1 from inserted where datalength(string) = 0) throw 50000, 'Insert failed in MyTable.string: string is empty.' , 0;
     if exists(select 1 from inserted where string like ' %') throw 50001, 'Insert failed in MyTable.string: string contains a leading space.', 0;
